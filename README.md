@@ -8,7 +8,11 @@
 </p>
 * To run project please run: `python .\AlgoMainRun.py`
 <p align="center">
-  <img src="./img/AlgoML.png" alt="Size Limit CLI" width="870">
+  <img src="./img/AlgoML.png" alt="Size Limit CLI" width="750">
 </p>
 
 * **Example run with Postman**
+
+<p align="center">
+  <img src="./img/Ex1.png" alt="Size Limit CLI" width="750">
+</p>
