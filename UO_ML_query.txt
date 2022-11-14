@@ -1,0 +1,35 @@
+declare @TestDate as DateTime = '2022-09-16';
+
+with CTE AS (
+		        select  
+				--min(o.Symbol) as Symbol, min(r.Direction) as Direction ,
+				--o.OptionTradeIdentifier OptionTradeId,
+				min( o.OptionTradeIdentifier) as OptionTradeId,
+				o.TradeGuid,
+				min(o.RuleClassId) RuleClassId, 
+				--min(o.TradeId) Trade#,  
+									 
+				sum( o.PLPerc) as TradePLPerc, 
+		        sum(o.PL) as TradePL		
+		                           
+				--
+				FROM
+				[BacktestResultDB].	[dbo].AlgoBackTestTradeSetupOrderHistory o --j
+				--oin AlgoRuleClass r on o.RuleClassId = r.Id
+		        where 
+				 TestDate >= @TestDate and
+				 o.PL is not null		    
+				group by TradeGuid)
+			
+
+		SELECT rs.*, uo.* 
+						FROM 	(select *, --ROW_NUMBER()
+							DENSE_RANK()
+							OVER(PARTITION BY CTE.OptionTradeId
+			                            ORDER BY CTE.TradePL DESC) AS RowNumber
+										FROM CTE
+										 ) as rs 
+										 INNER JOIN   TMP.dbo.AlgoUnsualOptionActivity uo on rs.OptionTradeId = uo.Id
+										where rs.RowNumber <= 3
+										order by rs.OptionTradeId 
+										
