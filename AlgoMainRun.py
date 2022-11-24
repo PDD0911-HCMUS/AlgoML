@@ -43,22 +43,55 @@ def predictAlgo():
             Message = CONTENT_INFOR_SUCCESS
             )
 
-@app.route('/api/training', methods=['POST'])
-def trainingAlgo():
-  print(request.headers.get('Content-Type'))
+# @app.route('/api/training', methods=['POST'])
+# def trainingAlgo():
+#   print(request.headers.get('Content-Type'))
+#   args = request.json
+#   print(args)
+#   dto = '''{dataRequest}'''
+#   dto = dto.format(dataRequest = args)
+#   #dict = json.loads(str(dto))
+#   dateTime = args['date']
+#   symbols = args['symbols']
+#   y_pred_api = ProcessTraining(symbols, str(dateTime))
+#   return jsonify(
+#             Status = STATUS_SUCCESS_API,
+#             Data = y_pred_api,
+#             Message = CONTENT_INFOR_SUCCESS
+#             )
+
+@app.route('/api/gnb', methods=['POST'])
+def predictAlgoGNB():
   args = request.json
-  print(args)
+  #print(args)
   dto = '''{dataRequest}'''
-  dto = dto.format(dataRequest = args)
+  #dto = dto.format(dataRequest = args)
   #dict = json.loads(str(dto))
-  dateTime = args['date']
-  symbols = args['symbols']
-  y_pred_api = ProcessTraining(symbols, str(dateTime))
+  df_r = pd.DataFrame(args)
+  df_r['Score'] = df_r['Score1'] + df_r['Score2'] + df_r['Score3'] + df_r['Score4'] + df_r['Score5'] + df_r['Score6'] + df_r['Score8'] + df_r['Score9'] + df_r['Score10']
+  y_pred_api = ProcessPredictionGNB('', df_r)
+  print(y_pred_api)
   return jsonify(
             Status = STATUS_SUCCESS_API,
-            Data = y_pred_api,
+            Data = str(y_pred_api),
             Message = CONTENT_INFOR_SUCCESS
-            )
+          )
 
+@app.route('/api/rfc', methods=['POST'])
+def predictAlgoRFC():
+  args = request.json
+  #print(args)
+  dto = '''{dataRequest}'''
+  #dto = dto.format(dataRequest = args)
+  #dict = json.loads(str(dto))
+  df_r = pd.DataFrame(args)
+  df_r['Score'] = df_r['Score1'] + df_r['Score2'] + df_r['Score3'] + df_r['Score4'] + df_r['Score5'] + df_r['Score6'] + df_r['Score8'] + df_r['Score9'] + df_r['Score10']
+  y_pred_api = ProcessPredictionRFC('', df_r)
+  print(y_pred_api)
+  return jsonify(
+            Status = STATUS_SUCCESS_API,
+            Data = str(y_pred_api),
+            Message = CONTENT_INFOR_SUCCESS
+          )
 if __name__ == "__main__":
-    app.run(port=PORT)
+    app.run(host=HOST, port=PORT)

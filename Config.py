@@ -9,7 +9,7 @@ CONNECTION_STRING = (
     r'Trusted_Connection=yes;'
     )
 
-HOST = '192.168.0.174'
+HOST = '10.70.38.171'
 PORT = 8009
 
 STATUS_SUCCESS_API = 1
@@ -17,7 +17,7 @@ STATUS_FAIL_API = 2
 STATUS_FAIL_READFILE = 3
 CONTENT_INFOR_SUCCESS = 'Predict Done !!!'
 CONTENT_INFOR_FAIL_LOAD_MODEL = 'Model is not existed !!!'
-
+CONTENT_INFOR_FAIL_PREDICT = 'The data request is not existed in Database !!!'
 OS_PWD = os.getcwd()
 
 COLUMNS = ['OptionTradeId', 'TradeGuid', 'RuleClassId', 'TradePLPerc', 'TradePL', 'RowNumber', 'Id', 'Symbol', 'PutCall', 'Description', 
